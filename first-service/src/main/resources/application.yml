@@ -1,10 +1,16 @@
 server:
-  port: 8081
+  port: 0 # 랜덤 포트 번호를 사용하는 설정. 서비스가 시작될 때 자동으로 랜덤 포트가 할당됨.
+
 spring:
   application:
-    name: my-first-service
+    name: my-first-service # 서비스의 고유한 이름을 설정. Eureka 에 등록될 때 사용됨.
+
 eureka:
   client:
-    fetch-registry: false
-    register-with-eureka: false
-
+    register-with-eureka: true # Eureka 서버에 서비스를 등록할지 여부. true로 설정 시 자동 등록.
+    fetch-registry: true # Eureka 서버로부터 서비스 정보를 가져올지 여부. true로 설정 시 자동 갱신.
+    service-url:
+      defaultZone: http://localhost:8761/eureka # 기본 Eureka 서버의 URL. 서비스 디스커버리에 사용됨.
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance-id:${random.value}}
+    # 서비스 인스턴스의 고유한 식별자. 기본적으로 서비스 이름과 랜덤 값 사용.

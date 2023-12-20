@@ -4,12 +4,22 @@ server:
 spring:
   application:
     name: user-service
+  h2:
+    console:
+      enabled: true # 콘솔을 사용하겠다.
+      settings:
+        web-allow-others: true # 외부에서 접속을 허용하겠다.
+      path: /h2-console # 웹브라우저에서 접속하고자 하는 콘솔 주소
 
 eureka:
   instance:
-    instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
   client:
     register-with-eureka: true
     fetch-registry: true
     service-url:
       defaultZone: http://127.0.0.1:8761/eureka
+
+
+greeting:
+  message: Welcome to the Simple E-commerce.

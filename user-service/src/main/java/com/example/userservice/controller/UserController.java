@@ -14,10 +14,11 @@ public class UserController {
 
     private Environment environment;
 
-    // @Autowired 를 이용해 종속성을 주입하는 방법은 권장하지 않음.
+    // 필드 종속성 주입 -> 권장x
     @Autowired
     private Greeting greeting;
 
+    // 생성자를 통한 종속성 주입 -> 권장o
     @Autowired
     public UserController(Environment environment) {
         this.environment = environment;

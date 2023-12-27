@@ -22,6 +22,10 @@ spring:
             priLogger:  true
             postLogger: true
       routes:
+        - id: user-service
+          uri: lb://USER-SERVICE # << 유레카 서버에 등록된 서비스 이름을 적어준다.
+          predicates:
+            - Path=/user-service/**
         - id: first-service
           uri: lb://MY-FIRST-SERVICE # << 유레카 서버에 등록된 서비스 이름을 적어준다.
           predicates:

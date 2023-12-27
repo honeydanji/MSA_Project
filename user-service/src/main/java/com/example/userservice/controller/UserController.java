@@ -7,6 +7,7 @@ import com.example.userservice.vo.RequestUser;
 import com.example.userservice.vo.ResponseUser;
 import com.fasterxml.jackson.databind.deser.DataFormatReaders;
 import com.netflix.discovery.converters.Auto;
+import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,24 +28,26 @@ public class UserController {
     private Greeting greeting;
 
     // 생성자를 통한 종속성 주입 -> 권장o
+    // @AllArgsConstructor 사용해도 무방
     @Autowired
     public UserController(Environment environment, UserService userService) {
         this.environment = environment;
         this.userService = userService;
     }
 
-    @GetMapping("/health_check")
+    @GetMapping("/user-service/health_check")
     public String status() {
-        return "It's Working in User Service.";
+        return String.format("It's Working in User Service On PORT %s",
+                environment.getProperty("local.server.port"));
     }
 
-    @GetMapping("/welcome")
+    @GetMapping("/user-service/welcome")
     public String welcome() {
         return greeting.getMessage();
 //        return environment.getProperty("greeting.message");
     }
 
-    @PostMapping("/users")
+    @PostMapping("/user-service/users")
     public ResponseEntity<ResponseUser> createUser(@RequestBody RequestUser user) {
         // ModelMapper 를 생성하고 매핑 전략을 STRICT 로 설정
         ModelMapper mapper = new ModelMapper();

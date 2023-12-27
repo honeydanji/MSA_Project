@@ -3,12 +3,16 @@ package com.example.userservice.service;
 import com.example.userservice.dto.UserDto;
 import com.example.userservice.entity.UserEntity;
 import com.example.userservice.repository.UserRepository;
+import com.example.userservice.vo.ResponseOrder;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -37,5 +41,31 @@ public class UserServiceImpl implements UserService{
         userRepository.save(userEntity);
 
         return null;
+    }
+
+    @Override
+    public UserDto getUserByUserId(String userId) {
+        try {
+            // 1. DB 에서 유저 정보를 가져와서 UserEntity 에 저장.
+            UserEntity userEntity = userRepository.findByUserId(userId);
+
+            // 2. UserEntity 를 UserDto 로 변환해준다.
+            UserDto userDto = new ModelMapper().map(userEntity, UserDto.class);
+
+            // 3. 주문 정보 가져오기 및 저장
+            List<ResponseOrder> orders = new ArrayList<>();
+            userDto.setOrders(orders);
+
+            // 4. 주문 정보가 포함된 유저 정보 반환
+            return userDto;
+        } catch (Exception e) {
+            // 예외 : 유저 정보가 없을 경우
+            throw new UsernameNotFoundException("User not found");
+        }
+    }
+
+    @Override
+    public Iterable<UserEntity> getUserByAll() {
+        return userRepository.findAll();
     }
 }

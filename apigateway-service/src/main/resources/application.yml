@@ -26,6 +26,10 @@ spring:
           uri: lb://USER-SERVICE # << 유레카 서버에 등록된 서비스 이름을 적어준다.
           predicates:
             - Path=/user-service/**
+        - id: catalog-service
+          uri: lb://CATALOG-SERVICE # << 유레카 서버에 등록된 서비스 이름을 적어준다.
+          predicates:
+            - Path=/catalog-service/**
         - id: first-service
           uri: lb://MY-FIRST-SERVICE # << 유레카 서버에 등록된 서비스 이름을 적어준다.
           predicates:

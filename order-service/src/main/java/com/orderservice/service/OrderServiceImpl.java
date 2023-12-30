@@ -22,6 +22,10 @@ public class OrderServiceImpl implements OrderService{
     }
     @Override
     public OrderDto createOrder(OrderDto orderDto) {
+
+//        log.info("[service] 수량 확인:" + orderDto.getQty());
+//        log.info("[service] 단가 확인:" + orderDto.getUnitPrice());
+
         orderDto.setOrderId(UUID.randomUUID().toString()); // id 랜덤 생성
         orderDto.setTotalPrice(orderDto.getQty() * orderDto.getUnitPrice()); // 총금액 = 수량 * 단가
 

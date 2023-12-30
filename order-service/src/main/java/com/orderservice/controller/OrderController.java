@@ -5,6 +5,7 @@ import com.orderservice.jpa.OrderEntity;
 import com.orderservice.service.OrderService;
 import com.orderservice.vo.RequestOrder;
 import com.orderservice.vo.ResponseOrder;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/order-service")
 public class OrderController {
@@ -43,6 +45,9 @@ public class OrderController {
 
         OrderDto orderDto = mapper.map(orderDetails, OrderDto.class);
         orderDto.setUserId(userId);
+
+//        log.info("[controller] 수량 확인:" + orderDto.getQty());
+//        log.info("[controller] 단가 확인:" + orderDto.getUnitPrice());
 
         OrderDto createdOrder = orderService.createOrder(orderDto);
 

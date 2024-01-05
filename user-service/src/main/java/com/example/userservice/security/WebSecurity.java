@@ -42,11 +42,11 @@ public class WebSecurity {
     private AuthenticationFilter getAuthenticationFilter() throws Exception{
         AuthenticationFilter authenticationFilter = new AuthenticationFilter(userService, environment);
         AuthenticationManagerBuilder managerBuilder = new AuthenticationManagerBuilder(objectPostProcessor);
-        authenticationFilter.setAuthenticationManager(autenticationManager(managerBuilder));
+        authenticationFilter.setAuthenticationManager(authenticationManager(managerBuilder));
         return authenticationFilter;
     }
 
-    public AuthenticationManager autenticationManager(AuthenticationManagerBuilder managerBuilder) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationManagerBuilder managerBuilder) throws Exception {
         managerBuilder.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder);
         return managerBuilder.build();
     }

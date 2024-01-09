@@ -64,7 +64,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                 .setSubject(userDetails.getUserId())
                 .setExpiration(new Date(System.currentTimeMillis() +
                         Long.parseLong(env.getProperty("token.expiration_time"))))   // 토큰 만료시간
-                .signWith(SignatureAlgorithm.HS256, env.getProperty("token.secret")) // 암호화
+                .signWith(SignatureAlgorithm.HS256, env.getProperty("token.secret").getBytes()) // 암호화
                 .compact();
 
         response.addHeader("token", token);

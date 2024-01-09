@@ -22,11 +22,7 @@ spring:
             priLogger:  true
             postLogger: true
       routes:
-#        - id: user-service
-#          uri: lb://USER-SERVICE # << 유레카 서버에 등록된 서비스 이름을 적어준다.
-#          predicates:
-#            - Path=/user-service/**
-        # Login
+        # Login -> Authorization x
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
@@ -35,7 +31,7 @@ spring:
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
-        # Register
+        # Register -> Authorization x
         - id: user-service
           uri: lb://USER-SERVICE # lb:// : Load Balancer 를 나타냄 , USER_SERVICE : 실제 서비스 이름
           predicates:
@@ -44,7 +40,7 @@ spring:
           filters:
             - RemoveRequestHeader=Cookie # 헤더의 쿠키 제거 (보안상 이유)
             - RewritePath=/user-service/(?<segment>.*), /$\{segment} # 정규표현식으로 RequestPath 재설정
-        # 나머지
+        # 나머지 -> Authorization o -> Add AuthorizationFilter
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
@@ -53,6 +49,7 @@ spring:
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
         - id: catalog-service
           uri: lb://CATALOG-SERVICE # << 유레카 서버에 등록된 서비스 이름을 적어준다.
           predicates:
@@ -61,8 +58,8 @@ spring:
           uri: lb://ORDER-SERVICE # << 유레카 서버에 등록된 서비스 이름을 적어준다.
           predicates:
             - Path=/order-service/**
-
-
+token:
+  secret: ekswlsmstptkddptjrkwkdrnldudnsalsldjcuvlsturkddkwl
 
 #        - id: first-service
 #          uri: lb://MY-FIRST-SERVICE # << 유레카 서버에 등록된 서비스 이름을 적어준다.

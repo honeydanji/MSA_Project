@@ -50,6 +50,14 @@ spring:
             - RemoveRequestHeader=Cookie
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
             - AuthorizationHeaderFilter
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/actuator/**
+            - Method=GET,POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
         - id: catalog-service
           uri: lb://CATALOG-SERVICE # << 유레카 서버에 등록된 서비스 이름을 적어준다.
           predicates:
@@ -58,29 +66,15 @@ spring:
           uri: lb://ORDER-SERVICE # << 유레카 서버에 등록된 서비스 이름을 적어준다.
           predicates:
             - Path=/order-service/**
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans, httpExchanges
+
 token:
   secret: ekswlsmstptkddptjrkwkdrnldudnsalsldjcuvlsturkddkwl
 
-#        - id: first-service
-#          uri: lb://MY-FIRST-SERVICE # << 유레카 서버에 등록된 서비스 이름을 적어준다.
-#          predicates:
-#            - Path=/first-service/**
-#          filters:
-##            - AddRequestHeader=first-request, first-request-header2
-##            - AddResponseHeader=first-response, first-response-header2
-#            - CustomFilter
-#        - id: second-service
-#          uri: lb://MY-SECOND-SERVICE # << 유레카 서버에 등록된 서비스 이름을 적어준다.
-#          predicates:
-#            - Path=/second-service/**
-#          filters:
-##            - AddRequestHeader=second-request, second-request-header2
-##            - AddResponseHeader=second-response, second-response-header2
-#            - name: CustomFilter
-#            - name: LoggingFilter
-#              args:
-#                baseMessage: Hi, there.
-#                priLogger: true
-#                postLogger: true
 
 

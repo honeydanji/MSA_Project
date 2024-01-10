@@ -6,4 +6,9 @@ spring:
     config:
       server:
         git:
-          uri: file://C:/MyProject/work/git-local-repo
+#          // local path
+#          uri: file://C:/MyProject/work/git-local-repo
+#          // remote path
+          uri: https://github.com/honeydanji/spring-cloud-config-test
+          username: tjdwls3680@naver.com
+          password: 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

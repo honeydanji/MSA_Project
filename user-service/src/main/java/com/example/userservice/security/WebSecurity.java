@@ -31,6 +31,12 @@ public class WebSecurity {
     protected SecurityFilterChain config(HttpSecurity http) throws Exception {
          http.csrf(AbstractHttpConfigurer::disable)
                  .headers(authorize -> authorize.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable)) // 기본 프레임 사용 x
+
+                 // 해당 API 요청은 누구나 가능.
+                 .authorizeHttpRequests(authoriz -> authoriz
+                         .requestMatchers("/actuator/**").permitAll())
+
+                 // 해당 API 요청은 조건이 필요.(ip, filter 등)
                  .authorizeHttpRequests(authorize -> authorize
                          .requestMatchers("/**").permitAll()
                          .requestMatchers(PathRequest.toH2Console()).permitAll()

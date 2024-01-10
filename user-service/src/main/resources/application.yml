@@ -36,6 +36,13 @@ logging:
   level:
     com.example.userservice: DEBUG
 
-token:
-  expiration_time: 86400000
-  secret: ekswlsmstptkddptjrkwkdrnldudnsalsldjcuvlsturkddkwl
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans
+        # refresh : configServer에서 변경한 정보를 해당 프로젝트에서 빌드 없이 적용시킬 수 있는 엔드포인트다.
+
+#token:
+#  expiration_time: 86400000
+#  secret: ekswlsmstptkddptjrkwkdrnldudnsalsldjcuvlsturkddkwl

@@ -2,6 +2,14 @@ server:
   port: 8888
 
 spring:
+  application:
+    name: config-service
+# < rabbitmq 접속 정보 >
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
   cloud:
     config:
       server:
@@ -11,4 +19,10 @@ spring:
 #          // remote path
           uri: https://github.com/honeydanji/spring-cloud-config-test
           username: tjdwls3680@naver.com
-          password: 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
+          password: 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
+
+management:
+  endpoints:
+    web:
+      exposure:
+        exclude: health, bus-refresh
